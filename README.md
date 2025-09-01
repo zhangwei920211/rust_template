@@ -38,6 +38,18 @@ cargo run
 # 格式化代码
 cargo fmt
 
+# basic.rs
+
+主要作用是作为 Rust 项目的示例程序（example），用于演示项目的用法、测试特定功能或为用户/开发者提供参考代码。
+
+具体说明如下：
+
+放在 examples 目录下的文件，可以通过 cargo run --example basic 命令单独编译和运行，不会影响主程序。
+适合用来写教程、文档示例、API用法演示，或临时验证某些代码片段。
+不会被主项目自动编译，只有显式运行时才会编译。
+便于新手或团队成员快速了解项目的基本用法和接口调用方式。
+简单来说，basic.rs 是一个“可运行的代码示例”，既方便演示，也方便开发调试。
+
 # 运行静态检查
 cargo clippy --all-targets --all-features --tests --benches -- -D warnings
 
