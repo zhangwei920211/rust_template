@@ -8,7 +8,8 @@ exclude = [
     "_typos_typos.toml",
     "CHANGELOG.md",
     "target/",
-    ".git/"
+    ".git/",
+    ".github/workflows/build.yml",
 ]
 
 # 模板占位符配置
@@ -89,5 +90,5 @@ post = [
     "echo '  2. git init'",
     "echo '  3. git add .'",
     "echo '  4. git commit -m \"Initial commit\"'",
-    "echo '  5. cargo test'"
+    "echo '  5. cargo test'",
 ]
