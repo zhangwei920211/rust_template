@@ -19,7 +19,7 @@
 ### 项目初始化
 ```bash
 # 基于本模板生成新项目
-cargo generate tyr-rust-bootcamp/template
+cargo generate --git https://github.com/zhangwei920211/rust_template
 
 # 安装开发依赖（仅需一次）
 cargo install cargo-generate cargo-deny typos-cli git-cliff cargo-nextest --locked
