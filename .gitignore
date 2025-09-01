@@ -104,3 +104,5 @@ PIPFILE.lock
 *.bak
 *.backup
 *.orig
+NUL.*
+*.o
