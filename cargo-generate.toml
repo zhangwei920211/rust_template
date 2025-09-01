@@ -1,3 +1,93 @@
 [template]
-cargo_generate_version = ">=0.10.0"
-exclude = ["cliff.toml"]
+cargo_generate_version = ">=0.18.0"
+
+# 排除的文件和目录（不会被复制到生成的项目中）
+exclude = [
+    "cliff.toml",
+    "_typos.toml",
+    "_typos_typos.toml",
+    "CHANGELOG.md",
+    "target/",
+    ".git/"
+]
+
+# 模板占位符配置
+[placeholders.project-name]
+type = "string"
+prompt = "What is the name of your project?"
+regex = "^[a-zA-Z][a-zA-Z0-9_-]*$"
+
+[placeholders.description]
+type = "string"
+prompt = "Describe your project"
+default = "A Rust project"
+
+[placeholders.authors]
+type = "string"
+prompt = "Who is the author? (Name <email>)"
+default = "{{authors}}"
+
+[placeholders.gh-username]
+type = "string"
+prompt = "What is your GitHub username?"
+
+[placeholders.license]
+type = "string"
+prompt = "Choose a license"
+choices = ["MIT", "Apache-2.0", "MIT OR Apache-2.0", "GPL-3.0", "BSD-3-Clause"]
+default = "MIT OR Apache-2.0"
+
+[placeholders.rust-version]
+type = "string"
+prompt = "Minimum supported Rust version (MSRV)"
+default = "1.75.0"
+
+[placeholders.with-async]
+type = "bool"
+prompt = "Include async/await support with tokio?"
+default = false
+
+[placeholders.with-cli]
+type = "bool"
+prompt = "Include CLI support with clap?"
+default = false
+
+[placeholders.with-serde]
+type = "bool"
+prompt = "Include serialization support with serde?"
+default = false
+
+[placeholders.with-logging]
+type = "bool"
+prompt = "Include logging support with tracing?"
+default = false
+
+[placeholders.with-github-actions]
+type = "bool"
+prompt = "Include GitHub Actions CI/CD?"
+default = true
+
+[placeholders.with-pre-commit]
+type = "bool"
+prompt = "Include pre-commit hooks?"
+default = true
+
+# 条件包含文件
+[conditional.'with-github-actions == false']
+ignore = [".github/"]
+
+[conditional.'with-pre-commit == false']
+ignore = [".pre-commit-config.yaml"]
+
+# 钩子脚本
+[hooks]
+pre = []
+post = [
+    "echo 'Project {{project-name}} created successfully!'",
+    "echo 'Next steps:'",
+    "echo '  1. cd {{project-name}}'",
+    "echo '  2. git init'",
+    "echo '  3. git add .'",
+    "echo '  4. git commit -m \"Initial commit\"'",
+    "echo '  5. cargo test'"
+]

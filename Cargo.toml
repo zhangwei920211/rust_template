@@ -1,8 +1,97 @@
 [package]
-name = "template"
+name = "rust_book"
 version = "0.1.0"
 edition = "2024"
+authors = ["{{authors}}"]
+description = "{{description}}"
 license = "MIT OR Apache-2.0"
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+repository = "https://github.com/{{gh-username}}/{{project-name}}"
+homepage = "https://github.com/{{gh-username}}/{{project-name}}"
+documentation = "https://docs.rs/{{project-name}}"
+readme = "README.md"
+keywords = ["rust", "template"]
+categories = ["development-tools"]
+include = [
+    "src/**/*",
+    "tests/**/*",
+    "benches/**/*",
+    "examples/**/*",
+    "README.md",
+    "LICENSE*",
+    "CHANGELOG.md",
+]
+rust-version = "1.85.0"
+
+# 性能和安全优化配置
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+
+[profile.test]
+opt-level = 1
+debug = true
+
+[profile.bench]
+opt-level = 3
+lto = true
+codegen-units = 1
+debug = false
 
 [dependencies]
+# 添加常用的依赖作为示例
+tokio = { version = "1.0", features = ["full"], optional = true }
+serde = { version = "1.0", features = ["derive"], optional = true }
+clap = { version = "4.0", features = ["derive"], optional = true }
+thiserror = { version = "1.0", optional = true }
+tracing = { version = "0.1", optional = true }
+
+[dev-dependencies]
+# 测试和开发工具依赖
+tokio-test = "0.4"
+proptest = "1.0"
+criterion = { version = "0.5", features = ["html_reports"] }
+insta = "1.0"
+rstest = "0.18"
+serial_test = "3.0"
+
+[build-dependencies]
+# 构建时依赖
+
+# 功能特性
+[features]
+default = []
+async = ["tokio"]
+serialization = ["serde"]
+cli = ["clap"]
+error-handling = ["thiserror"]
+logging = ["tracing"]
+full = ["async", "serialization", "cli", "error-handling", "logging"]
+
+# 示例程序
+[[example]]
+name = "basic"
+path = "examples/basic.rs"
+required-features = []
+
+# 基准测试
+
+# Cargo 元数据
+[package.metadata.cargo-udeps.ignore]
+normal = []
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[workspace]
+# 如果是工作空间根目录
+# members = []
+# exclude = []
