@@ -1,0 +1,32 @@
+[toolchain]
+# Rust 工具链版本配置
+channel = "stable"
+
+# 可选：指定具体版本（如果需要）
+# channel = "1.75.0"
+
+# 默认组件
+components = [
+    "rustc",
+    "cargo",
+    "rustfmt",
+    "clippy",
+    "rust-docs",
+    "rust-std",
+    "rust-analyzer"
+]
+
+# 可选目标平台
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "x86_64-pc-windows-msvc",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "wasm32-unknown-unknown"
+]
+
+# 配置文件说明：
+# - channel: 指定 Rust 版本通道（stable、beta、nightly 或具体版本）
+# - components: 安装的工具链组件
+# - targets: 交叉编译目标平台
+# - profile: 工具链配置文件（minimal、default、complete）
