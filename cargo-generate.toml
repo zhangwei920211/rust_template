@@ -117,34 +117,13 @@ ignore = ["src/lib.rs"]
 
 # 钩子脚本
 [hooks]
-pre = ["echo 'Initializing Rust project template...'"]
+# Use explicit script files so cargo-generate runs platform-appropriate hooks.
+# We provide both POSIX shell and PowerShell implementations; cargo-generate will
+# execute the entries it can on the current platform. Keeping both ensures
+# Windows (PowerShell) and Unix-like systems work correctly.
+pre = ["hooks/pre.sh", "hooks/pre.ps1"]
 
-post = [
-    "echo ''",
-    "echo '🎉 Project {{project-name}} created successfully!'",
-    "echo ''",
-    "echo '📁 Project structure:'",
-    "echo '   ├── src/          # Source code'",
-    "echo '   ├── tests/        # Integration tests'",
-    "echo '   ├── examples/     # Example code'",
-    "echo '   └── assets/       # Static assets'",
-    "echo ''",
-    "echo '🚀 Next steps:'",
-    "echo '   1. cd {{project-name}}'",
-    "echo '   2. cargo check     # Verify compilation'",
-    "echo '   3. cargo test      # Run tests'",
-    "echo '   4. cargo run       # Run the project'",
-    "echo ''",
-    "echo '🔧 Optional setup:'",
-    "echo '   - git init && git add . && git commit -m \"Initial commit\"'",
-    "echo '   - pre-commit install  # Setup pre-commit hooks'",
-    "echo '   - cargo doc --open    # Generate and view docs'",
-    "echo ''",
-    "echo '📚 Learn more: https://doc.rust-lang.org/book/'",
-]
+post = ["hooks/post.sh", "hooks/post.ps1"]
 
-# GitHub Actions 文件的特殊处理
-# 为了避免占位符冲突，使用 ignore 模式而不是 exclude
-[template.ignore]
-# 这些文件将被直接复制，不进行占位符替换
-passthrough = [".github/workflows/*.yml", ".github/workflows/*.yaml"]
+# GitHub Actions 文件处理
+# 将有冲突的 workflow 文件添加到 exclude 列表中，避免占位符替换问题
