@@ -9,86 +9,142 @@ exclude = [
     "CHANGELOG.md",
     "target/",
     ".git/",
-    ".github/workflows/build.yml",
+    "*.orig",
+    "*.bak",
 ]
 
-# 模板占位符配置
-[placeholders.project-name]
-type = "string"
-prompt = "What is the name of your project?"
-regex = "^[a-zA-Z][a-zA-Z0-9_-]*$"
+# 模板占位符配置（移除保留字段）
+# 注意: project-name, authors, crate_name, crate_type, os-arch 是保留字段
 
 [placeholders.description]
 type = "string"
 prompt = "Describe your project"
 default = "A Rust project"
 
-[placeholders.authors]
-type = "string"
-prompt = "Who is the author? (Name <email>)"
-default = "{{authors}}"
-
-[placeholders.gh-username]
+[placeholders.gh_username]
 type = "string"
 prompt = "What is your GitHub username?"
+regex = "^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$"
 
 [placeholders.license]
 type = "string"
 prompt = "Choose a license"
-choices = ["MIT", "Apache-2.0", "MIT OR Apache-2.0", "GPL-3.0", "BSD-3-Clause"]
+choices = [
+    "MIT",
+    "Apache-2.0",
+    "MIT OR Apache-2.0",
+    "GPL-3.0",
+    "BSD-3-Clause",
+    "Unlicense",
+]
 default = "MIT OR Apache-2.0"
 
-[placeholders.rust-version]
+[placeholders.rust_version]
 type = "string"
 prompt = "Minimum supported Rust version (MSRV)"
 default = "1.75.0"
+regex = "^1\\.[0-9]+\\.[0-9]+$"
 
-[placeholders.with-async]
+[placeholders.with_async]
 type = "bool"
 prompt = "Include async/await support with tokio?"
 default = false
 
-[placeholders.with-cli]
+[placeholders.with_cli]
 type = "bool"
 prompt = "Include CLI support with clap?"
 default = false
 
-[placeholders.with-serde]
+[placeholders.with_serde]
 type = "bool"
 prompt = "Include serialization support with serde?"
 default = false
 
-[placeholders.with-logging]
+[placeholders.with_logging]
 type = "bool"
 prompt = "Include logging support with tracing?"
 default = false
 
-[placeholders.with-github-actions]
+[placeholders.with_github_actions]
 type = "bool"
 prompt = "Include GitHub Actions CI/CD?"
 default = true
 
-[placeholders.with-pre-commit]
+[placeholders.with_pre_commit]
 type = "bool"
 prompt = "Include pre-commit hooks?"
 default = true
 
-# 条件包含文件
-[conditional.'with-github-actions == false']
-ignore = [".github/"]
+[placeholders.with_docs]
+type = "bool"
+prompt = "Include documentation setup?"
+default = true
 
-[conditional.'with-pre-commit == false']
+[placeholders.with_examples]
+type = "bool"
+prompt = "Include example files?"
+default = true
+
+[placeholders.binary_type]
+type = "string"
+prompt = "Project type"
+choices = ["bin", "lib", "both"]
+default = "bin"
+
+# 条件文件包含/排除
+[conditional.'with_github_actions == false']
+ignore = [".github/", "deny.toml"]
+
+[conditional.'with_pre_commit == false']
 ignore = [".pre-commit-config.yaml"]
+
+[conditional.'with_docs == false']
+ignore = ["docs/", ".github/workflows/docs.yml"]
+
+[conditional.'with_examples == false']
+ignore = ["examples/"]
+
+[conditional.'binary_type == "lib"']
+ignore = ["src/main.rs", "examples/"]
+
+[conditional.'binary_type == "bin"']
+ignore = ["src/lib.rs"]
+
+# 文件重命名规则
+[template.rename]
+"gitignore" = ".gitignore"
+"github" = ".github"
 
 # 钩子脚本
 [hooks]
-pre = []
+pre = ["echo 'Initializing Rust project template...'"]
+
 post = [
-    "echo 'Project {{crate_name}} created successfully!'",
-    "echo 'Next steps:'",
-    "echo '  1. cd {{crate_name}}'",
-    "echo '  2. git init'",
-    "echo '  3. git add .'",
-    "echo '  4. git commit -m \"Initial commit\"'",
-    "echo '  5. cargo test'",
+    "echo ''",
+    "echo '🎉 Project {{project-name}} created successfully!'",
+    "echo ''",
+    "echo '📁 Project structure:'",
+    "echo '   ├── src/          # Source code'",
+    "echo '   ├── tests/        # Integration tests'",
+    "echo '   ├── examples/     # Example code'",
+    "echo '   └── assets/       # Static assets'",
+    "echo ''",
+    "echo '🚀 Next steps:'",
+    "echo '   1. cd {{project-name}}'",
+    "echo '   2. cargo check     # Verify compilation'",
+    "echo '   3. cargo test      # Run tests'",
+    "echo '   4. cargo run       # Run the project'",
+    "echo ''",
+    "echo '🔧 Optional setup:'",
+    "echo '   - git init && git add . && git commit -m \"Initial commit\"'",
+    "echo '   - pre-commit install  # Setup pre-commit hooks'",
+    "echo '   - cargo doc --open    # Generate and view docs'",
+    "echo ''",
+    "echo '📚 Learn more: https://doc.rust-lang.org/book/'",
 ]
+
+# GitHub Actions 文件的特殊处理
+# 为了避免占位符冲突，使用 ignore 模式而不是 exclude
+[template.ignore]
+# 这些文件将被直接复制，不进行占位符替换
+passthrough = [".github/workflows/*.yml", ".github/workflows/*.yaml"]
