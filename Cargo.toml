@@ -2,7 +2,11 @@
 name = "template"
 version = "0.1.0"
 edition = "2024"
+<<<<<<< HEAD
 
+=======
+license = "MIT OR Apache-2.0"
+>>>>>>> 37a4743 (修改_typos)
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
