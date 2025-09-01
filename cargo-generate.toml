@@ -84,9 +84,9 @@ ignore = [".pre-commit-config.yaml"]
 [hooks]
 pre = []
 post = [
-    "echo 'Project {{project-name}} created successfully!'",
+    "echo 'Project {{crate_name}} created successfully!'",
     "echo 'Next steps:'",
-    "echo '  1. cd {{project-name}}'",
+    "echo '  1. cd {{crate_name}}'",
     "echo '  2. git init'",
     "echo '  3. git add .'",
     "echo '  4. git commit -m \"Initial commit\"'",
