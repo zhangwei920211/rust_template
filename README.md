@@ -94,14 +94,7 @@ git cliff --latest --strip header
 
 本模板通过自动化检查严格保障代码质量：
 
-### Pre-commit 钩子
-本仓库使用 pre-commit 钩子自动执行：
-- **代码格式化**（`cargo fmt`）
-- **静态检查**（`cargo clippy`）
-- **安全与依赖检查**（`cargo deny`）
-- **拼写检查**（`typos`）
-- **编译验证**（`cargo check`）
-- **测试执行**（`cargo nextest`）
+
 
 ### GitHub Actions CI
 CI 流水线（`build.yml`）在以下情况下触发：
