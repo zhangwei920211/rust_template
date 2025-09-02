@@ -13,6 +13,10 @@ exclude = [
     "*.bak",
 ]
 
+# GitHub Actions 文件处理
+# 将有冲突的 workflow 文件添加到 exclude 列表中，避免占位符替换问题
+ignore = [".github/workflows/build.yml"]
+
 # # 模板占位符配置（移除保留字段）
 # # 注意: project-name, authors, crate_name, crate_type, os-arch 是保留字段
 
